@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+  labels:
+    name: mysql-deployment
+    app: class-work-app
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: mysql-deployment 
+      app: class-work-app
+  template:
+    metadata:
+      name: mysql-deployment
+      labels:
+        name: mysql-deployment
+        app: class-work-app
+    spec:
+      nodeName: <application-node> # here is the application node where the container will run, not the database node
+      containers:
+        - name: mysql-container
+          image: mysql:8.0.18 # Useing mysql version 8.0.18 
+          ports:
+            - containerPort: 3306 # The port image that need to Communicate with the image
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret-PASSWORD
+                  key: MYSQL_ROOT_PASSWORD # The ROOT PASSWORD come from the mysql-secret.yaml file and encode by base64
+          volumeMounts:
+              - name: mysql-persistent-storage
+                mountPath: /var/lib/mysql # The path to the mysql container storage from the mysql-persistent-storage=/home/ilay/PROJECT/mysql-db
+      volumes:
+          - name: mysql-persistent-storage
+            nfs:
+              server: <db-node ip> # the <db-node> server address
+              path: /home/ilay/PROJECT/guy # the path of the host for the container to mount inside
+              readOnly: false
+            
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+  labels:
+    name: mysql-service
+    app: class-work-app
+
+spec:
+  selector:
+    name: mysql-deployment
+    app: class-work-app
+  type: NodePort
+  ports:
+    - port: 3306
+      targetPort: 3306
+      nodePort: 32111 # here is outside port that will run the app

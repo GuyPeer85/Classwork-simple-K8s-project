@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: class-work-app-deployment
+  labels:
+    name: class-work-app-deployment
+
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2 # no more than two extra pod can be created at a time.
+      maxUnavailable: 1 # no more than one pod can be unavailable at a time.
+  selector:
+    matchLabels:
+      name: class-work-app-deployment
+      app: class-work-app
+  template: # useing the template for make easeir pods
+    metadata:
+      labels:
+        name: class-work-app-deployment
+        app: class-work-app
+    spec:
+      nodeName: <application-node> # here is the application node where the container will run, not the database node
+      containers:
+        - name: nodejs-deployment
+          image: guypeeril/test1:14.17.0 # After push the image to guypeeril dockerhub by the name test1:14.17.0 ,the deployment pulling the image 
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 3043
+          env:
+            - name: MONGO-URL
+              value: mongodb://mongo-service:27017/***** # communicates with mongodb inside the code and not by user and password
+          volumeMounts:    
+            - name: node-persistent-storage
+              mountPath: /etc/letsencrypt # The path to the mysql container storage from the mysql-persistent-storage=<volumes.nfs.path>    
+      volumes:
+        - name: node-persistent-storage
+          nfs:
+            server: <db-node ip> # the <db-node> server address
+            path: /home/ilay/PROJECT/nodejs-volume-on-etc-letsencrypt # the path of the host for the container to mount inside
+            readOnly: false
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: class-work-app-service
+  labels:
+    name: class-work-app-service
+    app: class-work-app
+spec:
+  type: NodePort
+  ports:
+    - port: 3043
+      targetPort: 3043
+      nodePort: 31001 # here is outside port that will run the app
+      protocol: TCP
+  selector:
+    name: class-work-app-deployment
+    app: class-work-app
+
+

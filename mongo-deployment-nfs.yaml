@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-deployment
+  labels:
+    name: mongo-deployment
+    app: class-work-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: mongo-deployment
+      app: class-work-app
+  template:
+    metadata:
+      name: mongo-deployment
+      labels:
+        name: mongo-deployment
+        app: class-work-app
+    spec:
+      nodeName: <application-node> # here is the application node where the container will run, not the database node
+      containers:
+        - name: mongo-container
+          image: mongo:5.0.5 # Useing mongo version 5.0.5
+          ports:
+          - containerPort: 27017 # The port image that need to Communicate with the image
+          volumeMounts:    
+            - name: mongo-persistent-storage
+              mountPath: /data/db # The path to the mongo container storage from the mongo-persistent-storage=<volumes.nfs.path>  
+      volumes:
+        - name: mongo-persistent-storage
+          nfs:
+            server: <db-node ip> # the <db-node> server address
+            path: /home/ilay/PROJECT/mongodb # the path of the host for the container to mount inside
+            readOnly: false
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: mongo-service
+  labels: 
+    name: mongo-service
+    app: class-work-app
+  selector:
+    name: mongo-service
+    app: class-work-app
+spec:
+  ports: 
+    - port:  27017
+      targetPort:  27017

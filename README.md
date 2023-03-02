@@ -2,6 +2,7 @@
 
 Here you can see the diagram of the Class-Work-App:
 ===================================================
+
 ![k8s class work](https://user-images.githubusercontent.com/106809238/222395660-01c78c44-d801-401f-a6a4-3a934944ab86.jpg)
 
 Explanation of the steps:

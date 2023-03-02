@@ -1,11 +1,11 @@
 # Classwork-simple-K8s-Helm-project
 
 Here you can see the diagram of the Class-Work-App:
----------------------------------------------------
+===================================================
 ![k8s class work](https://user-images.githubusercontent.com/106809238/222395660-01c78c44-d801-401f-a6a4-3a934944ab86.jpg)
 
 Explanation of the steps:
--------------------------
+=========================
 step 1: bulid the dockerfile to the dockerhub repository (if needed to change)
 *** For be sure that you in the right dockerhub please use the commands `docker logout` after that `docker login` *** 
 1. Go to the correct directory folder in the system where the dockerfile exists, with the main code directory (very important!)
@@ -28,6 +28,7 @@ step 4: Show the project in the Web
 1. Go to the browser and enter the link http:\\localhost:3043, for see the resulte
 
 Files and description:
+======================
 1. myapp-deploment.yaml - 
 The container image is guypeeril/test1:14.17.0 with a pull policy of Always. 
 It exposes port 3043 and sets an environment variable for the MongoDB URL. 

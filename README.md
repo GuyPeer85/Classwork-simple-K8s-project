@@ -2,9 +2,7 @@
 
 Here you can see the diagram of the Class-Work-App:
 ===================================================
-
-![k8s class work](https://user-images.githubusercontent.com/106809238/222395660-01c78c44-d801-401f-a6a4-3a934944ab86.jpg)
-
+![k8s class work](https://user-images.githubusercontent.com/106809238/222407156-2839a019-eb10-495f-9d27-99eb4589b6c8.jpg)
 Explanation of the steps:
 =========================
 step 1: bulid the dockerfile to the dockerhub repository (if needed to change)

@@ -1,4 +1,4 @@
-# Classwork-simple-K8s-Helm-project
+# Classwork-simple-K8s-project
 
 Here you can see the diagram of the Class-Work-App:
 ===================================================

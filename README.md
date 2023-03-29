@@ -7,7 +7,7 @@ Here you can see the diagram of the Class-Work-App:
 Explanation of the steps:
 =========================
 step 1: bulid the dockerfile to the dockerhub repository (if needed to change)
-*** For be sure that you in the right dockerhub please use the commands `docker logout` after that `docker login` *** 
+*** ***For be sure that you in the right dockerhub please use the commands*** `docker logout` ***after that*** `docker login` *** 
 1. Go to the correct directory folder in the system where the dockerfile exists, with the main code directory (very important!)
 2. Use the command `docker build . -t <your username>/<name-of-app:version>`
 3. Use the command `docker push <your username>/<name-of-app:version>`
